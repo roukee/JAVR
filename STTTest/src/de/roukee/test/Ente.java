@@ -1,4 +1,4 @@
-package main;
+package de.roukee.test;
 
 public class Ente {
  String meinName(){
