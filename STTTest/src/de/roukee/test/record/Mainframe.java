@@ -2,25 +2,22 @@ package de.roukee.test.record;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 
-@SuppressWarnings("serial")
 public class Mainframe extends JFrame {
+	
 	recorder2 rec = new recorder2();
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	
+	JButton btnRecord = new JButton("record");
+	JButton btnStop = new JButton("stop");
 	static JTextArea textArea_1 = new JTextArea();
 	
 	public static void main(String[] args) {
@@ -36,46 +33,36 @@ public class Mainframe extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public Mainframe() {
+	public Mainframe() {		
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.add(btnRecord, BorderLayout.SOUTH);
+		contentPane.add(btnStop, BorderLayout.NORTH);
+		contentPane.add(textArea_1, BorderLayout.CENTER);
 		setContentPane(contentPane);
 		
-		JButton btnRecord = new JButton("record");
+		textArea_1.setLineWrap(true);
+		textArea_1.setRows(1);
+		
+		
 		btnRecord.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rec.captureAudio();
 			}
 		});
-		contentPane.add(btnRecord, BorderLayout.SOUTH);
 		
-		JButton btnStop = new JButton("stop");
 		btnStop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rec.targetDataLine.stop();
 				rec.targetDataLine.close();
 			}
 		});
-		contentPane.add(btnStop, BorderLayout.NORTH);
 		
-		JButton btnPlay = new JButton("recognize");
-		btnPlay.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
-		contentPane.add(btnPlay, BorderLayout.EAST);
-		textArea_1.setLineWrap(true);
-		textArea_1.setRows(1);
-		
-		
-		contentPane.add(textArea_1, BorderLayout.CENTER);
 	}
 
 }
