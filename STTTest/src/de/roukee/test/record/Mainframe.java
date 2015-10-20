@@ -2,22 +2,27 @@ package de.roukee.test.record;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JTextArea;
 
+@SuppressWarnings("serial")
 public class Mainframe extends JFrame {
-	record rec = new record();
+	recorder2 rec = new recorder2();
 	private JPanel contentPane;
 
 	/**
 	 * Launch the application.
 	 */
+	
+	static JTextArea textArea_1 = new JTextArea();
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -53,18 +58,24 @@ public class Mainframe extends JFrame {
 		JButton btnStop = new JButton("stop");
 		btnStop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				rec.running = false;
+				rec.targetDataLine.stop();
+				rec.targetDataLine.close();
 			}
 		});
 		contentPane.add(btnStop, BorderLayout.NORTH);
 		
-		JButton btnPlay = new JButton("play");
+		JButton btnPlay = new JButton("recognize");
 		btnPlay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				rec.playAudio();
+				
 			}
 		});
-		contentPane.add(btnPlay, BorderLayout.CENTER);
+		contentPane.add(btnPlay, BorderLayout.EAST);
+		textArea_1.setLineWrap(true);
+		textArea_1.setRows(1);
+		
+		
+		contentPane.add(textArea_1, BorderLayout.CENTER);
 	}
 
 }

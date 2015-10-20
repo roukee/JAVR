@@ -49,7 +49,7 @@ public class record {
   }
  
   void playAudio() {
-    try {
+	try {
       byte audio[] = out.toByteArray();
       InputStream input = 
         new ByteArrayInputStream(audio);
@@ -76,6 +76,8 @@ public class record {
                 buffer, 0, buffer.length)) != -1) {
               if (count > 0) {
                 line.write(buffer, 0, count);
+                OutputStream outstream = new FileOutputStream(new File("D:\\Test\\test.mp3"));
+                outstream.write(buffer, 0, count);
               }
             }
             line.drain();
