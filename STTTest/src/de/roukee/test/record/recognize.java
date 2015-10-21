@@ -10,6 +10,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.ParseException;
+import org.json.simple.parser.JSONParser;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.TargetDataLine;
 
@@ -19,6 +24,7 @@ public class recognize {
 	  TargetDataLine targetDataLine;
 	  File input = new File("voice.wav");
 	  File output = new File("voice.flac");
+	  String word;
 	
 	  void sendPost() throws Exception {
 			 
@@ -52,10 +58,28 @@ public class recognize {
 		     
 		     BufferedReader in = new BufferedReader(
 		             new InputStreamReader(
-		             connection.getInputStream()));
-		     
+		             connection.getInputStream()));		     
 		             while ((decodedString = in.readLine()) != null) { System.out.println(decodedString);
-		             Mainframe.textArea_1.setText(decodedString);
+		             
+		             JSONParser parser = new JSONParser();
+		             String s = "{\"result\":[{\"alternative\":[{\"transcript\":\"test\",\"confidence\":0.7630285},{\"transcript\":\"Test\"},{\"transcript\":\"kess\"},{\"transcript\":\"KESt\"},{\"transcript\":\"Casper\"}],\"final\":true}],\"result_index\":0}";
+		       		 String s1 = "[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
+		             
+		       		 try{
+		                Object obj = parser.parse(decodedString);
+		                JSONObject object = (JSONObject)obj;
+		                JSONArray array = (JSONArray) object.get("result");
+		                JSONObject obj1 = (JSONObject)array.get(0);
+		                JSONArray arr1 = (JSONArray) obj1.get("alternative");
+		                JSONObject obj2 = (JSONObject)arr1.get(0);
+		                
+		                Mainframe.textArea_1.setText((String) obj2.get("transcript"));
+
+		             }catch(IndexOutOfBoundsException pe){
+		       		
+		                
+		             }
+		             
 		             }
 		     }
 }
