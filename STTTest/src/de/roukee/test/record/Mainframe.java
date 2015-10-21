@@ -52,7 +52,21 @@ public class Mainframe extends JFrame {
 		
 		btnRecord.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textArea_1.setText("");
 				rec.captureAudio();
+				try {
+				    Thread.sleep(3000);                 //1000 milliseconds is one second.
+				} catch(InterruptedException ex) {
+				    Thread.currentThread().interrupt();
+				}
+				rec.targetDataLine.stop();
+				rec.targetDataLine.close();				
+				try {
+					Thread.sleep(3000);
+					act.takeAction();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		

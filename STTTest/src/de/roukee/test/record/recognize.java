@@ -32,7 +32,7 @@ public class recognize {
 			 //Change "de-DE" to your language (e.g. "en-US", "fr-FR")
 			 
 			 String decodedString;
-			 String GOOGLE_RECOGNIZER_URL = "http://www.google.com/speech-api/v2/recognize?lang=de-DE&key=AIzaSyBLW59JXuz93_NbV1HNKj-F3oqXTJzkgKE&output=json" ;
+			 String GOOGLE_RECOGNIZER_URL = "http://www.google.com/speech-api/v2/recognize?lang=en-US&key=AIzaSyBLW59JXuz93_NbV1HNKj-F3oqXTJzkgKE&output=json" ;
 			 Path path = Paths.get("voice.flac");
 		     byte[] data = Files.readAllBytes(path);
 		     String request = GOOGLE_RECOGNIZER_URL;
