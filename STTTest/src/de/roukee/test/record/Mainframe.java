@@ -11,17 +11,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
+@SuppressWarnings("serial")
 public class Mainframe extends JFrame {
 	
-	recorder2 rec = new recorder2();
 	private JPanel contentPane;
 
 	JButton btnRecord = new JButton("record");
-	JButton btnStop = new JButton("stop");
 	static JTextArea textArea_1 = new JTextArea();
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					Mainframe frame = new Mainframe();
@@ -33,6 +33,14 @@ public class Mainframe extends JFrame {
 		});
 	}
 
+	
+	Recordflac rec = new Recordflac();
+	STT stt = new STT();
+	Cmd com = new Cmd();
+	Speak tts = new Speak();
+	static String command;
+	String text;
+		
 	public Mainframe() {		
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,7 +50,6 @@ public class Mainframe extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.add(btnRecord, BorderLayout.SOUTH);
-		contentPane.add(btnStop, BorderLayout.NORTH);
 		contentPane.add(textArea_1, BorderLayout.CENTER);
 		setContentPane(contentPane);
 		
@@ -51,29 +58,31 @@ public class Mainframe extends JFrame {
 		
 		
 		btnRecord.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textArea_1.setText("");
-				rec.captureAudio();
+			@Override
+			public void actionPerformed(ActionEvent e) {				
 				try {
-				    Thread.sleep(3000);                 //1000 milliseconds is one second.
+					
+					textArea_1.setText(""); //Clear text window
+					
+					rec.captureAudio(); //Record spoken command
+				    Thread.sleep(3000); //Wait 1 second (Record time)
+				    rec.targetDataLine.stop(); //Stop recording 1/2
+					rec.targetDataLine.close(); //Stop recording 2/2
+					
+					command = stt.sendPost(); //Convert Speech to Text
+					
+					Thread.sleep(250); //Wait 250 milliseconds
+					
+					text = com.command(command); //Analyze command, returns result for TTS
+					
+					tts.speak(text); //Speak result out loud
+					textArea_1.setText(text); //Show result in text area
+					
 				} catch(InterruptedException ex) {
 				    Thread.currentThread().interrupt();
-				}
-				rec.targetDataLine.stop();
-				rec.targetDataLine.close();				
-				try {
-					Thread.sleep(3000);
-					act.takeAction();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-			}
-		});
-		
-		btnStop.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				rec.targetDataLine.stop();
-				rec.targetDataLine.close();
 			}
 		});
 		

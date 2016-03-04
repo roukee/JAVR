@@ -320,6 +320,7 @@ public class FLACEncoder {
 	 *         set to a size that is too large to be valid with the given array and current
 	 *         configuration.
 	 */
+	@SuppressWarnings("unused")
 	public boolean addSamples(int[] samples, int count) {
 		boolean added = false;
 		// get number of channels
