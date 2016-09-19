@@ -45,7 +45,7 @@ public class Cmd {
 			  WeatherXML xml = new WeatherXML();
 			  
 			  //Please get your own API-Key at api.openweathermap.org
-			  URL API =  new URL("http://api.openweathermap.org/data/2.5/forecast?q="+city+","+country+"&mode=xml&appid=44db6a862fba0b067b1930da0d769e98");
+			  URL API =  new URL("http://api.openweathermap.org/data/2.5/forecast?q="+city+","+country+"&mode=xml&appid=c863a42da17862a24bc8cb26877e897e");
 			  URLConnection conn = API.openConnection();
 
 		       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -59,7 +59,7 @@ public class Cmd {
 		       
 		       File XML = new File("API.xml");
 		       xform.transform(new DOMSource(doc), new StreamResult(XML));
-		       text = xml.main();
+		       text = xml.main() + " in " + city;
 		  }
 		  else if (command.contains("time")){
 			  //Time formats: https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
